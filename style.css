@@ -1,0 +1,18 @@
+:root {
+   --cor-primaria: #0860B1; /* Exemplo de um verde da empresa */
+  --cor-secundaria: #FF1E27;    /* Um cinza escuro para leitura */
+  --branco: #ffffff; 
+}
+   body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        table {
+            width: 300px;
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid black;
+            padding: 2px;
+            font-size: large;
+            height: 30px;
+        }
