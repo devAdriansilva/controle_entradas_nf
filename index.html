@@ -26,69 +26,27 @@
     </header>
 
     <main>
-        <form action=""></form>
-        <p> <label for="fornecedor">Fornecedor:</label> <input type="text" id="fornecedor"></p>
-         <p><label for="valor">Valor total da nota:</label> <input type="number" name="valor" id="valor"></p>
-        <button type="submit"> Adicionar Nota</button>
-        <hr>
+        <fieldset>
+            <form action="">
+            <p> <label for="fornecedor">Fornecedor:</label> <input type="text" id="fornecedor" required></p>
+
+             <p><label for="valor">Valor total da nota:</label> <input type="number" name="valor" id="valor" required></p>
+            <button type="submit"> Adicionar Nota</button>
+            </form>
+        </fieldset>
+
+        <h2>Notas Recbidas Hoje</h2>
         <table>
-            <tr>
-                <td>Fornecedor</td>
-                <td>Valor (R$)</td>
-            </tr>
-            <tr>
-                <td>
-
-                </td>
-            <td></td></tr>
-            <tr>
-                <td>
-
-                </td>
-            <td></td></tr>
-            <tr>
-                <td>
-
-                </td>
-            <td></td></tr>
-            <tr>
-                <td>
-
-                </td>
-            <td></td></tr>
-            <tr>
-                <td>
-
-                </td>
-            <td></td></tr>
-            <tr>
-                <td>
-
-                </td>
-            <td></td></tr>
-            <tr>
-                <td>
-
-                </td>
-            <td></td></tr>
-            <tr>
-                <td>
-
-                </td>
-            <td></td></tr>
-            <tr>
-                <td>
-
-                </td>
-            <td></td></tr>
-            <tr>
-                <td>
-
-                </td>
-            <td></td></tr>
-
-            
+            <thead>
+                <tr>
+                    <th>Fornecedor</th>
+                    <th>Valor</th>
+                    <th>Açoes</th>
+                </tr>
+            </thead>
+            <tbody id="lista-notas"></tbody>
         </table>
+        
     </main>
     
 </body>
