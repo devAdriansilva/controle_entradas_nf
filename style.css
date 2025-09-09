@@ -9,6 +9,7 @@ header {
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 15px;
+    margin-left: 10px;
 }
 fieldset {
     border: none;
@@ -42,4 +43,5 @@ fieldset {
         img {
             width: 100px;
             border-radius: 7px;
+            margin-right: 10px;
         }
