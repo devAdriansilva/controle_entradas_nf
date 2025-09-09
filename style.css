@@ -16,3 +16,14 @@
             font-size: large;
             height: 30px;
         }
+
+        h1 {
+            color: var(--cor-primaria);
+        }
+
+        button {
+            background-color: var(--cor-primaria);
+            color: var(--branco);
+            border-radius: 5px;
+            padding: 4px;
+        }
