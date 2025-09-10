@@ -13,7 +13,7 @@
         <img src="logo prado.png" alt="Logomarca" >
         <h1> Lançamento de Notas fiscais</h1>
     </header>
-    <hr>
+  
 
     <main>
         <fieldset>
@@ -21,23 +21,27 @@
             <p> <label for="fornecedor">Fornecedor:</label> <input type="text" id="fornecedor" required></p>
 
              <p><label for="valor">Valor total da nota:</label> <input type="number" name="valor" id="valor" required></p>
-            <button type="submit"> Adicionar Nota</button>
+            <button type="submit" id="botao_adicionar"> Adicionar Nota</button>
             </form>
         </fieldset>
-    <hr>
+    
         <h2>Notas Recebidas Hoje</h2>
-        <table>
+        <table id="lista-notas">
             <thead>
-                <tr>
-                    <th>Fornecedor</th>
+                <tr> 
+                    <th>Fornecedor </th>
                     <th>Valor</th>
                     <th>Açoes</th>
+                    
                 </tr>
             </thead>
-            <tbody id="lista-notas"></tbody>
+            <tbody id="lista-notas">
+                <!--Aqui serão adicionadas as linhas e dados dinâmicamente por JavaScript-->
+            </tbody>
         </table>
         
     </main>
     
 </body>
+<script src="script.js"></script>
 </html>

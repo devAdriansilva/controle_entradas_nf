@@ -13,6 +13,13 @@ header {
 }
 fieldset {
     border: none;
+    border-top: 1px solid black;
+}
+
+h2 { border-top: 1px solid black;
+    padding-top:10px ;
+    
+
 }
    body {
             font-family: Arial, Helvetica, sans-serif;
@@ -45,3 +52,23 @@ fieldset {
             border-radius: 7px;
             margin-right: 10px;
         }
+
+        input {
+  width: 100%;             /* Faz o campo ocupar toda a largura disponível */
+  padding: 8px;            /* Adiciona um espaço interno para o texto não ficar colado nas bordas */
+  margin-bottom: 10px;     /* Cria um espaço abaixo de cada campo */
+  border-radius: 5px;      /* Arredonda as bordas */
+  border: 1px solid #ccc;  /* Coloca uma borda cinza sutil */
+  box-sizing: border-box;  /* Garante que o padding não "estoure" a largura total */
+}
+
+th {
+    background-color:var(--cor-primaria);
+    color: var(--branco);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#lista-notas tr:nth-child(even){
+    background-color:#f2f2f2;
+}
