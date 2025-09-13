@@ -44,7 +44,7 @@ function enviar(event) {
      //EXIBINDO OS DADOS INSERIDOS//
       
       tabela.appendChild(novaLinha)
-      elementoSoma.textContent(somaTotal)
+      elementoSoma.textContent = somaTotal
       // Limpza dos inputs
      fornecedor.value = '';
      valor_nota.value = '';
