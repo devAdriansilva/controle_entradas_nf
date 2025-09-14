@@ -1,9 +1,15 @@
 
+const formatadorMoeda = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+});
 let fornecedor = document.querySelector('#fornecedor')
 let valor_nota = document.getElementById('valor')
 const botao = document.getElementById('botao_adicionar')
 const tabela  = document.getElementById('lista-notas')
 let somaTotal = 0 
+
+
 
 function enviar(event) {
       event.preventDefault() // evitar que os dados sumam ao executar  a função.
@@ -44,9 +50,24 @@ function enviar(event) {
      //EXIBINDO OS DADOS INSERIDOS//
       
       tabela.appendChild(novaLinha)
-      elementoSoma.textContent = somaTotal
+      elementoSoma.textContent = formatadorMoeda.format(somaTotal);
       // Limpza dos inputs
      fornecedor.value = '';
      valor_nota.value = '';
 }
+
+function gerenciarTabela(event) {
+    //Verifica se o botão exvluir foi clicado
+    if (event.target.textContent == 'Excluir') { 
+       let linhaParaExcluir = event.target.closest('tr'); // localiza a linha a ser exluida
+       let valorRemovido =Number(linhaParaExcluir.children[1].textContent);// localiza a celula da linha que possui o valor 
+       somaTotal -= valorRemovido // atualiza o total fora da tabela 
+       elementoSoma.textContent = `R$ ${somaTotal.toFixed(2)}`; // exibe o valor atualizado fora da table
+       linhaParaExcluir.remove() // remove a linha completa
+    
+    }
+
+    
+}
 botao.addEventListener('click',enviar)
+tabela.addEventListener('click',gerenciarTabela)
