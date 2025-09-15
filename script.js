@@ -7,7 +7,8 @@ let fornecedor = document.querySelector('#fornecedor')
 let valor_nota = document.getElementById('valor')
 const botao = document.getElementById('botao_adicionar')
 const tabela  = document.getElementById('lista-notas')
-let somaTotal = 0 
+let somaTotal = 0;
+let linhaEmEdicao = null;
 
 
 
@@ -54,20 +55,40 @@ function enviar(event) {
       // Limpza dos inputs
      fornecedor.value = '';
      valor_nota.value = '';
+     fornecedor.focus()
 }
 
 function gerenciarTabela(event) {
-    //Verifica se o botão exvluir foi clicado
+    //Verifica se o botão Excluir foi clicado
     if (event.target.textContent == 'Excluir') { 
-       let linhaParaExcluir = event.target.closest('tr'); // localiza a linha a ser exluida
-       let valorRemovido =Number(linhaParaExcluir.children[1].textContent);// localiza a celula da linha que possui o valor 
-       somaTotal -= valorRemovido // atualiza o total fora da tabela 
-       elementoSoma.textContent = `R$ ${somaTotal.toFixed(2)}`; // exibe o valor atualizado fora da table
-       linhaParaExcluir.remove() // remove a linha completa
-    
+       excluirNota(event.target); // chamada da função excluirNota
+    //Verifica se o botão Editar foi clicado   
+    } else if (event.target.textContent == 'Editar') {
+      iniciarEdicao(event.target) // chamada da função iniciarEdicao 
     }
-
-    
 }
+
+function excluirNota(botaoClicado) {
+  let linhaParaExcluir = botaoClicado.closest('tr');// localiza a linha a ser exluida
+  let valorRemovido = Number(linhaParaExcluir.children[1].textContent)// localiza a celula da linha que possui o valor 
+  somaTotal -= valorRemovido // atualiza o total fora da tabela 
+  elementoSoma.textContent = formatadorMoeda.format(somaTotal); // exibe o valor atualizado fora da table
+  linhaParaExcluir.remove() // remove a linha completa
+}
+
+function iniciarEdicao(botaoClicado) {
+ let linhaParaEditar = botaoClicado.closest('tr');
+
+ let nomeFornecedor = linhaParaEditar.children[0].textContent
+ let valorNota = Number (linhaParaEditar.children[1].textContent)
+ fornecedor.value = nomeFornecedor
+ valor_nota.value = valorNota
+
+ linhaEmEdicao = linhaParaEditar
+
+  console.log("Modo de edição ativado!!")
+  console.log(botaoClicado)
+}
+// ouvintes de Eventos
 botao.addEventListener('click',enviar)
 tabela.addEventListener('click',gerenciarTabela)
