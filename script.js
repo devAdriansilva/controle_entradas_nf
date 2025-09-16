@@ -7,6 +7,7 @@ let fornecedor = document.querySelector('#fornecedor')
 let valor_nota = document.getElementById('valor')
 const botao = document.getElementById('botao_adicionar')
 const tabela  = document.getElementById('lista-notas')
+//variáveis de estado
 let somaTotal = 0;
 let linhaEmEdicao = null;
 
@@ -18,12 +19,12 @@ function adicionarNota(event) {
        /*Capturamos o que o usuário digitou e guardamos em constantes.*/
     const txtfornecedor = fornecedor.value 
     const valorNota = Number(valor_nota.value)
-    somaTotal += valorNota
-    elementoSoma = document.getElementById('soma-total')
 
+    // DEFININDO O MODO (ADIÇÃO X EDIÇÃO)
+    if (linhaEmEdicao === null) { // MODO ADIÇÃO
+      
     /** CRIAÇÃO DOS ELEMENTOS HTML */
     const novaLinha = document.createElement('tr') //Linha da tabela
-
     const celulaFornecedor = document.createElement('td') // célula fornecedor.
     celulaFornecedor.textContent = txtfornecedor //  A propriedade textcontente da constante celulafornecedor recebe o valor da constante txtfornecedor.
 
@@ -47,11 +48,16 @@ function adicionarNota(event) {
      novaLinha.appendChild(celulaFornecedor) 
      novaLinha.appendChild(celulaValor)
      novaLinha.appendChild(celulaAcoes)
+     somaTotal += valorNota
+     elementoSoma = document.getElementById('soma-total')
      
-     //EXIBINDO OS DADOS INSERIDOS//
+     //EXIBINDO OS DADOS INSERIDOS// 
+    tabela.appendChild(novaLinha)
+    elementoSoma.textContent = formatadorMoeda.format(somaTotal);
       
-      tabela.appendChild(novaLinha)
-      elementoSoma.textContent = formatadorMoeda.format(somaTotal);
+    } else {// MODO EDIÇÃO
+
+    }    
       // Limpza dos inputs
      fornecedor.value = '';
      valor_nota.value = '';
