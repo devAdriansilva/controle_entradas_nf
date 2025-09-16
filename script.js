@@ -12,7 +12,7 @@ let linhaEmEdicao = null;
 
 
 
-function enviar(event) {
+function adicionarNota(event) {
       event.preventDefault() // evitar que os dados sumam ao executar  a função.
       // CAPTURA DOS DADOS
        /*Capturamos o que o usuário digitou e guardamos em constantes.*/
@@ -90,5 +90,5 @@ function iniciarEdicao(botaoClicado) {
   console.log(botaoClicado)
 }
 // ouvintes de Eventos
-botao.addEventListener('click',enviar)
+botao.addEventListener('click',adicionarNota)
 tabela.addEventListener('click',gerenciarTabela)
