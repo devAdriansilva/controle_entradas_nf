@@ -1,100 +1,94 @@
-
 const formatadorMoeda = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
   currency: 'BRL',
 });
-let fornecedor = document.querySelector('#fornecedor')
-let valor_nota = document.getElementById('valor')
-const botao = document.getElementById('botao_adicionar')
-const tabela  = document.getElementById('lista-notas')
+let fornecedor = document.querySelector('#fornecedor');
+let valor_nota = document.getElementById('valor');
+const botao = document.getElementById('botao_adicionar');
+const tabela  = document.getElementById('lista-notas');
+const elementoSoma = document.getElementById('soma-total'); // Já definimos aqui!
+
 //variáveis de estado
 let somaTotal = 0;
 let linhaEmEdicao = null;
 
-
-
 function adicionarNota(event) {
-      event.preventDefault() // evitar que os dados sumam ao executar  a função.
-      // CAPTURA DOS DADOS
-       /*Capturamos o que o usuário digitou e guardamos em constantes.*/
-    const txtfornecedor = fornecedor.value 
-    const valorNota = Number(valor_nota.value)
+    event.preventDefault();
 
-    // DEFININDO O MODO (ADIÇÃO X EDIÇÃO)
+    // 1. Lemos os dados do formulário (comum a ambos os modos)
+    const txtfornecedor = fornecedor.value;
+    const valorNota = Number(valor_nota.value);
+
+    // 2. Decidimos o que fazer com base na variável de estado
     if (linhaEmEdicao === null) { // MODO ADIÇÃO
+        // --- 2a. ATUALIZAR O ESTADO (OS DADOS) ---
+        somaTotal += valorNota;
+
+        // --- 2b. ATUALIZAR A INTERFACE (O QUE O UTILIZADOR VÊ) ---
+        // Atualiza o placar do total
+        elementoSoma.textContent = formatadorMoeda.format(somaTotal);
+
+        // Cria os elementos da nova linha
+        const novaLinha = document.createElement('tr');
+        const celulaFornecedor = document.createElement('td');
+        celulaFornecedor.textContent = txtfornecedor;
+        const celulaValor = document.createElement('td');
+        celulaValor.textContent = valorNota;
+        const celulaAcoes = document.createElement('td');
+        const btEdit = document.createElement('button');
+        btEdit.textContent = 'Editar';
+        const btExc = document.createElement('button');
+        btExc.textContent = 'Excluir';
+        celulaAcoes.appendChild(btEdit);
+        celulaAcoes.appendChild(btExc);
+        
+        // Monta a linha e adiciona à tabela
+        novaLinha.appendChild(celulaFornecedor);
+        novaLinha.appendChild(celulaValor);
+        novaLinha.appendChild(celulaAcoes);
+        tabela.appendChild(novaLinha);
       
-    /** CRIAÇÃO DOS ELEMENTOS HTML */
-    const novaLinha = document.createElement('tr') //Linha da tabela
-    const celulaFornecedor = document.createElement('td') // célula fornecedor.
-    celulaFornecedor.textContent = txtfornecedor //  A propriedade textcontente da constante celulafornecedor recebe o valor da constante txtfornecedor.
-
-    const celulaValor =document.createElement('td') // célula valor
-    celulaValor.textContent = valorNota
-
-
-     //*CRIAÇÀO DOS BOTÕES DE AÇÃO */
-    const btEdit = document.createElement('button')
-    btEdit.textContent = 'Editar'
-    const btExc = document.createElement('button')
-    btExc.textContent = 'Excluir'
-    const celulaAcoes = document.createElement('td')
-   
-    //PREENCHIMENTO DO FORMULÁRIO
-    // ## o elemento celulaAcoes adota os botões ##
-     celulaAcoes.appendChild(btEdit)
-     celulaAcoes.appendChild(btExc) 
-
- // ## O elemento novaLinha adota as células ##
-     novaLinha.appendChild(celulaFornecedor) 
-     novaLinha.appendChild(celulaValor)
-     novaLinha.appendChild(celulaAcoes)
-     somaTotal += valorNota
-     elementoSoma = document.getElementById('soma-total')
-     
-     //EXIBINDO OS DADOS INSERIDOS// 
-    tabela.appendChild(novaLinha)
-    elementoSoma.textContent = formatadorMoeda.format(somaTotal);
-      
-    } else {// MODO EDIÇÃO
-
-    }    
-      // Limpza dos inputs
-     fornecedor.value = '';
-     valor_nota.value = '';
-     fornecedor.focus()
+    } else { // MODO EDIÇÃO
+        // A nossa lógica de atualização virá aqui no próximo passo.
+        console.log("Modo de edição ativado. A lógica de salvar virá aqui.");
+    }     
+    
+    // 3. Limpa os inputs no final de qualquer operação
+    fornecedor.value = '';
+    valor_nota.value = '';
+    fornecedor.focus();
 }
 
 function gerenciarTabela(event) {
-    //Verifica se o botão Excluir foi clicado
     if (event.target.textContent == 'Excluir') { 
-       excluirNota(event.target); // chamada da função excluirNota
-    //Verifica se o botão Editar foi clicado   
+        excluirNota(event.target);
     } else if (event.target.textContent == 'Editar') {
-      iniciarEdicao(event.target) // chamada da função iniciarEdicao 
+        iniciarEdicao(event.target);
     }
 }
 
 function excluirNota(botaoClicado) {
-  let linhaParaExcluir = botaoClicado.closest('tr');// localiza a linha a ser exluida
-  let valorRemovido = Number(linhaParaExcluir.children[1].textContent)// localiza a celula da linha que possui o valor 
-  somaTotal -= valorRemovido // atualiza o total fora da tabela 
-  elementoSoma.textContent = formatadorMoeda.format(somaTotal); // exibe o valor atualizado fora da table
-  linhaParaExcluir.remove() // remove a linha completa
+    let linhaParaExcluir = botaoClicado.closest('tr');
+    let valorRemovido = Number(linhaParaExcluir.children[1].textContent);
+    
+    // 1. Atualiza o estado
+    somaTotal -= valorRemovido;
+    // 2. Atualiza a interface
+    elementoSoma.textContent = formatadorMoeda.format(somaTotal);
+    linhaParaExcluir.remove();
 }
 
 function iniciarEdicao(botaoClicado) {
- let linhaParaEditar = botaoClicado.closest('tr');
-
- let nomeFornecedor = linhaParaEditar.children[0].textContent
- let valorNota = Number (linhaParaEditar.children[1].textContent)
- fornecedor.value = nomeFornecedor
- valor_nota.value = valorNota
-
- linhaEmEdicao = linhaParaEditar
-
-  console.log("Modo de edição ativado!!")
-  console.log(botaoClicado)
+    let linhaParaEditar = botaoClicado.closest('tr');
+    let nomeFornecedor = linhaParaEditar.children[0].textContent;
+    let valorNota = Number (linhaParaEditar.children[1].textContent);
+    
+    fornecedor.value = nomeFornecedor;
+    valor_nota.value = valorNota;
+    
+    linhaEmEdicao = linhaParaEditar; // Define o estado para "Modo Edição"
 }
+
 // ouvintes de Eventos
-botao.addEventListener('click',adicionarNota)
-tabela.addEventListener('click',gerenciarTabela)
+botao.addEventListener('click', adicionarNota);
+tabela.addEventListener('click', gerenciarTabela);
