@@ -14,10 +14,16 @@ let linhaEmEdicao = null;
 
 function adicionarNota(event) {
     event.preventDefault();
+    if (fornecedor.value.trim() === '' || valor_nota.value === '') {
+        alert("Por favor, preencha todos os campos.");
+        return; // IMPORTANTE: Sai da função para não adicionar a linha vazia.
+    }
 
     // 1. Lemos os dados do formulário (comum a ambos os modos)
     const txtfornecedor = fornecedor.value;
     const valorNota = Number(valor_nota.value);
+   
+
 
     // 2. Decidimos o que fazer com base na variável de estado
     if (linhaEmEdicao === null) { // MODO ADIÇÃO
@@ -49,9 +55,12 @@ function adicionarNota(event) {
         tabela.appendChild(novaLinha);
       
     } else { // MODO EDIÇÃO
-        let valor_antigo =Number(linhaEmEdicao.children[1].textContent);
-        //let valor_novo = Number() ;
-       // somaTotal = ;
+        let valor_antigo = Number(linhaEmEdicao.children[1].textContent);
+        somaTotal = somaTotal - valor_antigo + valorNota ;
+        elementoSoma.textContent = formatadorMoeda.format(somaTotal);
+        linhaEmEdicao.children[0].textContent = txtfornecedor;
+        linhaEmEdicao.children[1].textContent = valorNota;
+        linhaEmEdicao = null
     }     
     
     // 3. Limpa os inputs no final de qualquer operação
@@ -79,43 +88,18 @@ function excluirNota(botaoClicado) {
     linhaParaExcluir.remove();
 }
 
-/*function iniciarEdicao(botaoClicado) {
+function iniciarEdicao(botaoClicado) {
     let linhaParaEditar = botaoClicado.closest('tr');
     let nomeFornecedor = linhaParaEditar.children[0].textContent;
     let valorNota = Number (linhaParaEditar.children[1].textContent);
-    
     fornecedor.value = nomeFornecedor;
     valor_nota.value = valorNota;
+    botao.textContent = 'Salvar Alterações' //Mudança no botão
     
     linhaEmEdicao = linhaParaEditar; // Define o estado para "Modo Edição"
-}*/
-
-function iniciarEdicao(botaoClicado) {
-    // Vamos investigar a cadeia passo a passo:
-    console.log("1. O Ponto de Partida (O botão que cliquei):", botaoClicado);
-
-    const linha = botaoClicado.closest('tr');
-    console.log("2. O 'Avô' (A linha 'tr' que encontrámos):", linha);
-
-    const filhosDaLinha = linha.children;
-    console.log("3. Os 'Filhos' (A coleção de 'tds' dentro da linha):", filhosDaLinha);
-
-    const celulaDoValor = filhosDaLinha[1];
-    console.log("4. O Segundo Filho (A 'td' específica do valor):", celulaDoValor);
-
-    const textoDoValor = celulaDoValor.textContent;
-    console.log("5. O Destino Final (O texto dentro da célula):", textoDoValor);
-
-    // O resto da sua função continuaria aqui...
-    let linhaParaEditar = botaoClicado.closest('tr');
-    let nomeFornecedor = linhaParaEditar.children[0].textContent;
-    let valorNota = Number (linhaParaEditar.children[1].textContent);
-    
-    fornecedor.value = nomeFornecedor;
-    valor_nota.value = valorNota;
-    
-    linhaEmEdicao = linhaParaEditar;
 }
+
+
 
 // ouvintes de Eventos
 botao.addEventListener('click', adicionarNota);
