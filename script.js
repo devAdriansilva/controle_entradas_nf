@@ -14,7 +14,7 @@ let linhaEmEdicao = null;
 
 function adicionarNota(event) {
     event.preventDefault();
-    if (fornecedor.value.trim() === '' || valor_nota.value === '') {
+    if (fornecedor.value.trim() === '' || valor_nota.value === '') { // validação de entrada de dados
         alert("Por favor, preencha todos os campos.");
         return; // IMPORTANTE: Sai da função para não adicionar a linha vazia.
     }
@@ -60,13 +60,14 @@ function adicionarNota(event) {
         elementoSoma.textContent = formatadorMoeda.format(somaTotal);
         linhaEmEdicao.children[0].textContent = txtfornecedor;
         linhaEmEdicao.children[1].textContent = valorNota;
-        linhaEmEdicao = null
+        linhaEmEdicao = null // muda o estado para adição
     }     
     
     // 3. Limpa os inputs no final de qualquer operação
     fornecedor.value = '';
     valor_nota.value = '';
     fornecedor.focus();
+    botao.textContent = 'Adicionar Nota' // Retorna o botão ao estado de adição
 }
 
 function gerenciarTabela(event) {
@@ -78,14 +79,16 @@ function gerenciarTabela(event) {
 }
 
 function excluirNota(botaoClicado) {
-    let linhaParaExcluir = botaoClicado.closest('tr');
-    let valorRemovido = Number(linhaParaExcluir.children[1].textContent);
     
-    // 1. Atualiza o estado
-    somaTotal -= valorRemovido;
-    // 2. Atualiza a interface
-    elementoSoma.textContent = formatadorMoeda.format(somaTotal);
-    linhaParaExcluir.remove();
+    if (confirm("ATENÇÃO!! Tem certeza que quer apagr o Registro ?")) {
+        let linhaParaExcluir = botaoClicado.closest('tr');
+        let valorRemovido = Number(linhaParaExcluir.children[1].textContent);
+    
+        // 1. Atualiza o estado
+        somaTotal -= valorRemovido;
+        // 2. Atualiza a interface
+        elementoSoma.textContent = formatadorMoeda.format(somaTotal);
+        linhaParaExcluir.remove();    
 }
 
 function iniciarEdicao(botaoClicado) {
@@ -98,7 +101,7 @@ function iniciarEdicao(botaoClicado) {
     
     linhaEmEdicao = linhaParaEditar; // Define o estado para "Modo Edição"
 }
-
+}
 
 
 // ouvintes de Eventos
