@@ -7,6 +7,7 @@ let valor_nota = document.getElementById('valor');
 const botao = document.getElementById('botao_adicionar');
 const tabela  = document.getElementById('lista-notas');
 const elementoSoma = document.getElementById('soma-total'); // Já definimos aqui!
+let notas = [];
 
 //variáveis de estado
 let somaTotal = 0;
@@ -29,6 +30,12 @@ function adicionarNota(event) {
     if (linhaEmEdicao === null) { // MODO ADIÇÃO
         // --- 2a. ATUALIZAR O ESTADO (OS DADOS) ---
         somaTotal += valorNota;
+        //Criação do Objeto que armazenará os dados no LocalStorage
+        let novaNota = {};
+        novaNota.fornecedor = txtfornecedor;
+        novaNota.valor = valorNota;
+        notas.push(novaNota);
+        salvarNotas();
 
         // --- 2b. ATUALIZAR A INTERFACE (O QUE O UTILIZADOR VÊ) ---
         // Atualiza o placar do total
@@ -78,6 +85,9 @@ function gerenciarTabela(event) {
     }
 }
 
+function salvarNotas() {
+            localStorage.setItem('minhasNotas',JSON.stringify(notas))
+         }
 function excluirNota(botaoClicado) {
     
     if (confirm("ATENÇÃO!! Tem certeza que quer apagr o Registro ?")) {
@@ -89,6 +99,7 @@ function excluirNota(botaoClicado) {
         // 2. Atualiza a interface
         elementoSoma.textContent = formatadorMoeda.format(somaTotal);
         linhaParaExcluir.remove();  
+         salvarNotas();
     }      
 }
 
@@ -101,6 +112,7 @@ function iniciarEdicao(botaoClicado) {
     botao.textContent = 'Salvar Alterações' //Mudança no botão
     
     linhaEmEdicao = linhaParaEditar; // Define o estado para "Modo Edição"
+    salvarNotas();
 }
 
 // ouvintes de Eventos
