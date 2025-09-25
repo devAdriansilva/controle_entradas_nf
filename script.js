@@ -88,7 +88,8 @@ function excluirNota(botaoClicado) {
         somaTotal -= valorRemovido;
         // 2. Atualiza a interface
         elementoSoma.textContent = formatadorMoeda.format(somaTotal);
-        linhaParaExcluir.remove();    
+        linhaParaExcluir.remove();  
+    }      
 }
 
 function iniciarEdicao(botaoClicado) {
@@ -101,8 +102,6 @@ function iniciarEdicao(botaoClicado) {
     
     linhaEmEdicao = linhaParaEditar; // Define o estado para "Modo Edição"
 }
-}
-
 
 // ouvintes de Eventos
 botao.addEventListener('click', adicionarNota);
