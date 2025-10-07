@@ -62,14 +62,30 @@ function adicionarNota(event) {
         tabela.appendChild(novaLinha);
       
     } else { // MODO EDIÇÃO
-        let valor_antigo = Number(linhaEmEdicao.children[1].textContent);
-        somaTotal = somaTotal - valor_antigo + valorNota ;
-        elementoSoma.textContent = formatadorMoeda.format(somaTotal);
-        linhaEmEdicao.children[0].textContent = txtfornecedor;
-        linhaEmEdicao.children[1].textContent = valorNota;
-        linhaEmEdicao = null // muda o estado para adição
-    }     
+    // --- 1. PREPARAÇÃO E ATUALIZAÇÃO DOS DADOS (ESTADO) ---
+    // Lemos o valor antigo para o cálculo
+    let valorAntigo = Number(linhaEmEdicao.children[1].textContent);
+    // Encontramos o índice para saber qual objeto alterar
+    let indice = linhaEmEdicao.rowIndex - 1;
+
+    // Atualizamos todas as nossas variáveis de estado
+    somaTotal = somaTotal - valorAntigo + valorNota;
+    notas[indice].fornecedor = txtfornecedor;
+    notas[indice].valor = valorNota;
     
+    // --- 2. PERSISTÊNCIA DOS DADOS ---
+    // Salvamos o novo estado da nossa "fonte da verdade"
+    salvarNotas();
+    
+    // --- 3. ATUALIZAÇÃO DA INTERFACE ---
+    // Por fim, alteramos tudo o que o utilizador vê na tela
+    elementoSoma.textContent = formatadorMoeda.format(somaTotal);
+    linhaEmEdicao.children[0].textContent = txtfornecedor;
+    linhaEmEdicao.children[1].textContent = valorNota;
+    
+    // E resetamos o estado da aplicação
+    linhaEmEdicao = null;
+}
     // 3. Limpa os inputs no final de qualquer operação
     fornecedor.value = '';
     valor_nota.value = '';
