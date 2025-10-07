@@ -89,18 +89,27 @@ function salvarNotas() {
             localStorage.setItem('minhasNotas',JSON.stringify(notas))
          }
 function excluirNota(botaoClicado) {
-    
-    if (confirm("ATENÇÃO!! Tem certeza que quer apagr o Registro ?")) {
+    if (confirm("ATENÇÃO!! Tem certeza que quer apagar o Registro ?")) {
+        // --- 1. LEITURA E PREPARAÇÃO ---
+        // Lemos todas as informações que precisamos da interface primeiro.
         let linhaParaExcluir = botaoClicado.closest('tr');
+        let indice = linhaParaExcluir.rowIndex - 1;
         let valorRemovido = Number(linhaParaExcluir.children[1].textContent);
-    
-        // 1. Atualiza o estado
+        
+        // --- 2. ATUALIZAÇÃO DOS DADOS (ESTADO) ---
+        // Alteramos todas as nossas variáveis de estado.
         somaTotal -= valorRemovido;
-        // 2. Atualiza a interface
+        notas.splice(indice, 1);
+        
+        // --- 3. PERSISTÊNCIA DOS DADOS ---
+        // Salvamos o novo estado da nossa "fonte da verdade".
+        salvarNotas();
+        
+        // --- 4. ATUALIZAÇÃO DA INTERFACE ---
+        // Por fim, alteramos o que o utilizador vê na tela.
         elementoSoma.textContent = formatadorMoeda.format(somaTotal);
-        linhaParaExcluir.remove();  
-         salvarNotas();
-    }      
+        linhaParaExcluir.remove();
+    }
 }
 
 function iniciarEdicao(botaoClicado) {
