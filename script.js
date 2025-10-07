@@ -143,3 +143,4 @@ function iniciarEdicao(botaoClicado) {
 // ouvintes de Eventos
 botao.addEventListener('click', adicionarNota);
 tabela.addEventListener('click', gerenciarTabela);
+
